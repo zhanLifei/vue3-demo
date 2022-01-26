@@ -1,12 +1,15 @@
 <template>
   <div class="warpper">
       <div class="left" :style="leftStyle">
-          <div class="vue3">VUE <span style="float: right;cursor: pointer;" @click="collapse">{{isCollapse}}</span></div>
+          <div class="vue3">VUE 3.0 <span style="float: right;cursor: pointer;" @click="collapse">{{isCollapse}}</span></div>
           <ul>
               <li><router-link to='/index'>首页</router-link></li>
               <li><router-link to='/login'>登入</router-link></li>
               <li><router-link to='/detail'>详情页</router-link></li>
               <li><router-link to='/provide-inject'>provide与inject</router-link></li>
+              <li><router-link to='/monted-echarts'>在monted中使用echarts</router-link></li>
+              <li><router-link to='/setup-echarts'>在setup中使用echarts</router-link></li>
+              <li><router-link to='/组合式API'>组合式API</router-link></li>
           </ul>
       </div>
       <div class="right" :style="leftStyle2">

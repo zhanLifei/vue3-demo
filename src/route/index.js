@@ -5,7 +5,8 @@ const router = createRouter({
     history: routerHistory,
     routes: [
       {
-        path: '/home',
+        path: '',
+        redirect: '/index' ,
         component: () => import("../view/home"),
         children: [
             {
@@ -23,7 +24,19 @@ const router = createRouter({
             {
                 path: '/provide-inject',
                 component: () => import("../view/provide-inject")
-            }
+            },
+            {
+                path: '/monted-echarts',
+                component: () => import("../view/monted-echarts")
+            },
+            {
+                path: '/setup-echarts',
+                component: () => import("../view/setup-echarts")
+            },
+            {
+                path: '/组合式API',
+                component: () => import("../view/组合式API")
+            },
         ]
       },
       
