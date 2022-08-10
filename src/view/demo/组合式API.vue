@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Combined from '../components/combined.vue'
+import Combined from '../../components/combined.vue'
 import { reactive } from "vue";
 export default {
     components: { Combined },

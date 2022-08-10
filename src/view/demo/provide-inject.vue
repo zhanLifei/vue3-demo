@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import titleName from '../components/titleName.vue'
-import provideDom from '../components/provide-dom.vue'
+import titleName from '../../components/titleName.vue'
+import provideDom from '../../components/provide-dom.vue'
 import { provide, toRefs } from 'vue'
 export default {
   components: {titleName, provideDom},

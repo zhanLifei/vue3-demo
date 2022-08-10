@@ -3,17 +3,17 @@
     <div class="effect-box-min pdlr0 clearfix">
       <div class="mgb15 alert-bd-bottom pdb10 pdlr15 clearfix">
         <h3 class="bold-border-l font14">
-          <i class="pillars"></i>债务总览
+          <i class="pillars"></i>总览
         </h3>
       </div>
       <div class="f-l position-relative" style="width: 78%">
         <div class="date-chart" id="line-chart1" style="height: 292px"></div>
         <div class="text-center">
-            <span class="color-gray">彩礼: </span>
+            <span class="color-gray">车贷: </span>
             <span class="orange-font">180000元</span>
-            <span class="color-gray">个人: </span>
+            <span class="color-gray">借款: </span>
             <span class="orange-font">40000元</span>
-            <span class="color-gray">舞蹈: </span>
+            <span class="color-gray">日常开销: </span>
             <span class="orange-font">5328元</span>
         </div>
       </div>
@@ -23,19 +23,19 @@
             <div class="mgb15" style="color: #35a3cb">
               <i class="gaishuanIcon"></i>总金额
             </div>
-            <div class="font20" id="budgetCost_one">225,328元</div>
+            <div class="font20" id="budgetCost_one">{{totalAmountAll}}元</div>
           </div>
           <div class="son">
             <div class="mgb15" style="color: #4dcbc0">
               <i class="chenbenIcon"></i>总剩余还款金额
             </div>
-            <div class="font20" id="actualCost_one">221,400元</div>
+            <div class="font20" id="actualCost_one">{{residualRrepaymentAll}}元</div>
           </div>
           <div class="son">
             <div class="mgb15" style="color: #ff9600">
               <i class="zhixinIcon"></i>总已还款
             </div>
-            <div class="font20" id="actualRate_one">4200元</div>
+            <div class="font20" id="actualRate_one">{{hasReimbursementAll}}元</div>
           </div>
         </div>
       </div>
@@ -68,16 +68,25 @@
                     <th><span>还款方式</span></th>
                 </tr>
                 </thead>
-                <tbody>
-                    <tr v-for="(item, index) in list[activeIndex].list" :key="index">
-                        <td>{{index+1}}</td>
-                        <td>{{item.time}}</td>
-                        <td>{{item.Repaid}}</td>
-                        <td>{{item.remainingAmount}}</td>
-                        <td>{{item.type}}</td>
-                    </tr>
-                </tbody>
             </table>
+            <div class="scrollTable-box">
+              <div class="scrollTable">
+                <table class="meterial-tb table-fixed" id="lineInfo_grid" cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tbody>
+                        <tr v-for="(item, index) in list[activeIndex].list" :key="index">
+                            <td>{{index+1}}</td>
+                            <td>{{item.time}}</td>
+                            <td>{{item.Repaid}}</td>
+                            <td>{{item.remainingAmount}}</td>
+                            <td>{{item.type}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="temporarily-no-data" v-if="list[activeIndex].list.length == 0">
+                    <div>暂无还款记录</div>
+                </div>
+              </div>
+            </div>
         </div>
     </div>
     </div>
@@ -86,11 +95,14 @@
 
 <script>
 import { toRefs, reactive, inject, onMounted } from "vue";
-import { datainjs } from '../util/data';
+import { datainjs } from '../../util/data';
 export default {
   setup() {
     let echarts = inject("ec"); //引入
     let state = reactive({
+      totalAmountAll: 225328, //总金额
+      residualRrepaymentAll: 0, //总剩余还款金额
+      hasReimbursementAll: 0,  //总已还款金额
       activeIndex: 0,
       list : datainjs()
     });
@@ -101,8 +113,12 @@ export default {
       state.list = state.list.map((item)=>{
         let num=0;
         let data=[];
+        // 遍历datainjs的data
         item.list.map((item1)=>{
-          num = num + item1.Repaid
+          // 将每月每项的还款金额相加
+          num += item1.Repaid
+          // 将每月每项的还款金额累计相加
+          state.hasReimbursementAll += item1.Repaid
           data.push({time: item1.time, Repaid: item1.Repaid, type: item1.type, remainingAmount: item.totalAmount - num})
         })
         return {
@@ -114,6 +130,8 @@ export default {
           list: data
         }
       });
+      // 总剩余还款金额 = 总金额 - 总已还款金额
+      state.residualRrepaymentAll = state.totalAmountAll - state.hasReimbursementAll
       //需要获取到element,所以是onMounted的Hook
       let myChart = echarts.init(document.getElementById("line-chart1"));
       // 绘制图表
@@ -267,6 +285,18 @@ export default {
 }
 .section-check{
   padding: 10px;
+  
+}
+.scrollTable-box{
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+}
+.scrollTable{
+  width: 101.2%;
+  overflow: scroll;
+  height: 270px;
+  max-height: 270px;
 }
 table thead th {
     height: 47px;
@@ -276,7 +306,7 @@ table thead th {
     color: #333;
 }
 .check-header tr td {
-    padding: 7px 0;
+    padding: 10px 0;
     border-bottom: 1px solid #e5e5e5;
     text-align: center;
     color: #666;
@@ -284,5 +314,10 @@ table thead th {
 .meterial-tb thead th, .meterial-tb tbody td {
     border-bottom: 1px solid #e5e5e5;
     color: #666;
+}
+.temporarily-no-data{
+  margin: 100px;
+  text-align: center;
+  color: #999;
 }
 </style>

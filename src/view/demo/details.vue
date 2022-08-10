@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import titleName from '../components/titleName.vue'
+import titleName from '../../components/titleName.vue'
 import { reactive } from 'vue';
 export default {
   components: {titleName},

@@ -7,35 +7,35 @@ const router = createRouter({
       {
         path: '',
         redirect: '/index' ,
-        component: () => import("../view/home"),
+        component: () => import("../view/sidebar/index"),
         children: [
             {
                 path: '/index',
-                component: () => import("../view/index")
+                component: () => import("../view/demo/index")
             },
             {
                 path: '/login',
-                component: () => import("../view/login")
+                component: () => import("../view/demo/login")
             },
             {
                 path: '/detail',
-                component: () => import("../view/details")
+                component: () => import("../view/demo/details")
             },
             {
                 path: '/provide-inject',
-                component: () => import("../view/provide-inject")
+                component: () => import("../view/demo/provide-inject")
             },
             {
                 path: '/monted-echarts',
-                component: () => import("../view/monted-echarts")
+                component: () => import("../view/demo/monted-echarts")
             },
             {
                 path: '/setup-echarts',
-                component: () => import("../view/setup-echarts")
+                component: () => import("../view/demo/setup-echarts")
             },
             {
                 path: '/组合式API',
-                component: () => import("../view/组合式API")
+                component: () => import("../view/demo/组合式API")
             },
         ]
       },

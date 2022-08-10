@@ -7,7 +7,7 @@
 </template>
 
 <script lang='ts'>
-import titleName from '../components/titleName.vue'
+import titleName from '../../components/titleName.vue'
 import { defineComponent, reactive } from 'vue'
 export default defineComponent ({
   components: {titleName},
