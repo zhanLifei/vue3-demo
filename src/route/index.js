@@ -7,7 +7,7 @@ const router = createRouter({
       {
         path: '',
         redirect: '/index' ,
-        component: () => import("../view/sidebar/index"),
+        component: () => import("../view/home/index"),
         children: [
             // vue2案例
             {
@@ -55,6 +55,14 @@ const router = createRouter({
                 path: '/组合式API',
                 component: () => import("../view/vue3/组合式API")
             },
+            {
+                path: '/ref获取dom',
+                component: () => import("../view/vue3/ref获取dom")
+            },
+            {
+                path: '/toRef',
+                component:() => import("../view/vue3/toRef")
+            }
         ]
       },
       

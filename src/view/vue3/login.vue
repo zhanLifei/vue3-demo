@@ -1,26 +1,34 @@
 <template>
-    <titleName :msg="'toRefs()将响应式的对象变为普通对象 再解构，在模板中就可以直接使用属性'"></titleName>
-    <div>{{name}}</div>
-    <div>{{sex}}</div>
+  <p>{{ state1 }}</p>
+  <button @click="add1">增加</button>
+
+  <p>{{ state2 }}</p>
+  <button @click="add2">增加</button>
+
+  <p>{{ count }}</p>
+  <!-- <button @click="add3">增加</button> -->
 </template>
 
 <script>
-import titleName from '../../components/titleName.vue'
-import { toRefs } from 'vue'
+import { ref, toRef, toRefs } from "vue";
 export default {
-  components: {titleName},
-  setup(){
-    let state = {
-      name: 'zhanlifei',
-      sex: '男'
-    }
+  setup() {
+    const obj = { count: 3 };
+    const state1 = ref(obj.count); //look
+    const state2 = toRef(obj, "count"); //look
 
-    // toRefs()将响应式的对象变为普通对象 再解构，在模板中就可以直接使用属性，不用state.name
-    return {...toRefs(state)}
-  }
-}
+    const add1 = () => {
+      state1.value++;
+      console.log("原始值：", obj); //原始值：3
+      console.log("响应式数据对象ref：", state1); //响应式数据对象ref：4
+    };
+
+    const add2 = () => {
+      state2.value++;
+      console.log("原始值：", obj); // 原始值：4
+      console.log("响应式数据对象toRef：", state2); //响应式数据对象ref：4
+    };
+    return { state1, state2, ...toRefs(obj), add1, add2};
+  },
+};
 </script>
-
-<style>
-
-</style>
